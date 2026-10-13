@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERPULSE // Next-Gen 3D Cyber Store</title>
+    <!-- Meta & SEO Tags -->
+    <meta name="description" content="CYBERPULSE — Next-Gen 3D Cyber Store. Experience high-performance cybernetic gear, holographic optics, and quantum neural tech in WebGL 3D.">
+    <meta name="keywords" content="cyberpunk, 3d store, three.js, cybernetics, tech peripherals, next-gen hardware">
+    <meta name="author" content="CYBERPULSE INC.">
+    <meta name="theme-color" content="#050711">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cyberpulse-store.vercel.app">
+    <meta property="og:title" content="CYBERPULSE // Next-Gen 3D Cyber Store">
+    <meta property="og:description" content="Immerse yourself in high-performance cybernetic gear, holographic optics, and quantum neural tech in interactive WebGL 3D.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1200&auto=format&fit=crop">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CYBERPULSE // Next-Gen 3D Cyber Store">
+    <meta name="twitter:description" content="Immerse yourself in high-performance cybernetic gear in interactive WebGL 3D.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1200&auto=format&fit=crop">
+
+    <!-- SVG Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            base: '#050711',
+                            card: 'rgba(15, 23, 42, 0.45)',
+                            cyan: '#00f0ff',
+                            neonPurple: '#a855f7',
+                            neonPink: '#ec4899',
+                            border: 'rgba(255, 255, 255, 0.08)'
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Glassmorphism & Cyber Enhancements */
+        body {
+            background-color: #050711;
+            overflow-x: hidden;
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        }
+        .glass-panel {
+            background: rgba(13, 19, 36, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px -5px rgba(0, 240, 255, 0.15), 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+        }
+        .neon-glow-pink {
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.35);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050711;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- 3D Canvas Background Container -->
+    <canvas id="webgl-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Ambient Gradient Blobs for High-End Glassmorphism Depth -->
+    <div class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none z-0"></div>
+    <div class="fixed top-[45%] left-[50%] -translate-x-1/2 w-[400px] h-[400px] bg-pink-500/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- ================= NAVIGATION BAR ================= -->
+        <header class="sticky top-0 z-50 px-4 sm:px-6 lg:px-10 py-3.5 backdrop-blur-xl bg-slate-950/70 border-b border-white/10 transition-all duration-300">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-fuchsia-500 p-[1.5px] transition-transform duration-300 group-hover:scale-105">
+                        <div class="w-full h-full bg-[#070b19] rounded-[10px] flex items-center justify-center">
+                            <i data-lucide="zap" class="w-5 h-5 text-cyan-400 group-hover:text-cyan-300"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="font-mono text-xl font-bold tracking-wider bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">
+                            CYBER<span class="text-cyan-400">PULSE</span>
+                        </span>
+                        <div class="text-[9px] font-mono tracking-widest text-cyan-400/80 -mt-1">3D HARDWARE LAB</div>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/10 rounded-full px-4 py-1.5 backdrop-blur-md">
+                    <a href="#hero" class="px-3.5 py-1.5 text-sm text-cyan-300 font-medium rounded-full bg-white/5 transition-all">Home</a>
+                    <a href="#products" class="px-3.5 py-1.5 text-sm text-slate-300 hover:text-white font-medium transition-all">Hardware</a>
+                    <a href="#features" class="px-3.5 py-1.5 text-sm text-slate-300 hover:text-white font-medium transition-all">Features</a>
+                    <a href="#specs" class="px-3.5 py-1.5 text-sm text-slate-300 hover:text-white font-medium transition-all">Specs</a>
+                    <a href="#contact" class="px-3.5 py-1.5 text-sm text-slate-300 hover:text-white font-medium transition-all">Support</a>
+                </nav>
+
+                <!-- Actions: Search, 3D Theme Toggle, Cart, Mobile Menu -->
+                <div class="flex items-center gap-3">
+                    <!-- 3D Toggle Quick Trigger -->
+                    <button id="toggleWireframeBtn" title="3D Mesh Mode Toggle" class="hidden sm:flex items-center gap-1.5 text-xs font-mono px-3 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-950/30 text-cyan-300 hover:bg-cyan-500/20 transition-colors">
+                        <i data-lucide="box" class="w-3.5 h-3.5"></i>
+                        <span id="wireframeText">Wireframe</span>
+                    </button>
+
+                    <!-- Cart Button with dynamic badge -->
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 transition-all hover:scale-105" aria-label="Cart">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-cyan-400 text-black text-[11px] font-bold flex items-center justify-center shadow-lg shadow-cyan-500/40">
+                            0
+                        </span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden p-2.5 rounded-xl border border-white/10 bg-white/[0.04] text-slate-200" aria-label="Open Menu">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Dropdown Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-3 pt-3 border-t border-white/10 pb-2">
+                <div class="flex flex-col gap-2">
+                    <a href="#hero" class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-300 text-sm font-medium">Home</a>
+                    <a href="#products" class="px-4 py-2 rounded-lg text-slate-300 hover:bg-white/5 text-sm font-medium">Hardware</a>
+                    <a href="#features" class="px-4 py-2 rounded-lg text-slate-300 hover:bg-white/5 text-sm font-medium">Features</a>
+                    <a href="#specs" class="px-4 py-2 rounded-lg text-slate-300 hover:bg-white/5 text-sm font-medium">Specs</a>
+                    <button id="mobileWireframeBtn" class="flex items-center justify-between px-4 py-2 rounded-lg text-cyan-400 bg-cyan-950/40 text-sm font-mono border border-cyan-500/30">
+                        <span>3D Mesh Style</span>
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================= HERO SECTION ================= -->
+        <section id="hero" class="relative pt-12 sm:pt-20 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Hero Text Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <!-- Status Badge -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 backdrop-blur-md">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 -ml-4"></span>
+                        <span class="text-xs font-mono font-medium text-cyan-300 tracking-wider uppercase">
+                            Next-Gen Neural Commerce v4.2
+                        </span>
+                    </div>
+
+                    <!-- Main Headline -->
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
+                        <span class="block text-white">Experience The</span>
+                        <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-fuchsia-400 bg-clip-text text-transparent text-glow">
+                            Future of Hardware
+                        </span>
+                    </h1>
+
+                    <!-- Subtitle -->
+                    <p class="text-slate-300 text-base sm:text-lg lg:text-xl font-normal max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Cybernetic peripherals, quantum neural headsets, aur holographic computing gear. Sabhi devices fully tuned high-performance grade specs ke saath designed hain.
+                    </p>
+
+                    <!-- CTAs & Interactive Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#products" class="group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-base shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                            <span>Shop Now</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+
+                        <button onclick="speedUp3D()" class="inline-flex items-center gap-2.5 px-6 py-4 rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-lg hover:bg-white/[0.08] hover:border-cyan-400/40 text-slate-200 font-medium text-base transition-all duration-200">
+                            <i data-lucide="rotate-cw" class="w-5 h-5 text-cyan-400"></i>
+                            <span>Spin 3D Core</span>
+                        </button>
+                    </div>
+
+                    <!-- Highlight Badges / Quick stats -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 max-w-lg mx-auto lg:mx-0 border-t border-white/10">
+                        <div class="text-left">
+                            <div class="font-mono text-2xl sm:text-3xl font-bold text-cyan-400">0.05ms</div>
+                            <div class="text-xs text-slate-400 font-mono">Quantum Sync</div>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-mono text-2xl sm:text-3xl font-bold text-purple-400">99.8%</div>
+                            <div class="text-xs text-slate-400 font-mono">Neural Accuracy</div>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-mono text-2xl sm:text-3xl font-bold text-pink-400">4.9★</div>
+                            <div class="text-xs text-slate-400 font-mono">Cyber Operators</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Interactive 3D Control Card -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="w-full max-w-md glass-panel rounded-2xl p-6 relative overflow-hidden border border-cyan-500/20 group hover:border-cyan-500/40 transition-all">
+                        <!-- Top status bar inside card -->
+                        <div class="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono text-slate-400">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                3D LIVE CORE RUNNING
+                            </span>
+                            <span class="text-cyan-400">WEBGL 2.0</span>
+                        </div>
+
+                        <!-- Center Holo HUD Simulation -->
+                        <div class="py-8 text-center space-y-2">
+                            <div class="inline-block p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-2">
+                                <i data-lucide="orbit" class="w-12 h-12 text-cyan-400 animate-spin" style="animation-duration: 12s;"></i>
+                            </div>
+                            <h3 class="font-mono text-lg font-bold text-white tracking-wide">
+                                QUANTUM TORUS KNOT
+                            </h3>
+                            <p class="text-xs text-slate-300 max-w-xs mx-auto">
+                                Background mein Three.js engine real-time mein mathematical 4D torus knot geometry render kar raha hai.
+                            </p>
+                        </div>
+
+                        <!-- Interactive Mini-controls inside card -->
+                        <div class="bg-black/30 rounded-xl p-3 border border-white/5 space-y-2.5">
+                            <div class="flex items-center justify-between text-xs font-mono">
+                                <span class="text-slate-400">Object Hue Shift:</span>
+                                <div class="flex gap-2">
+                                    <button onclick="set3DColor(0x00f0ff)" class="w-5 h-5 rounded-full bg-cyan-400 border border-white/40 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                                    <button onclick="set3DColor(0xa855f7)" class="w-5 h-5 rounded-full bg-purple-500 border border-white/40 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                                    <button onclick="set3DColor(0x10b981)" class="w-5 h-5 rounded-full bg-emerald-400 border border-white/40 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                                    <button onclick="set3DColor(0xf43f5e)" class="w-5 h-5 rounded-full bg-rose-500 border border-white/40 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs font-mono pt-1">
+                                <span class="text-slate-400">Particle Field:</span>
+                                <span class="text-emerald-400 font-bold">1,200 Active Points</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FEATURES BAR ================= -->
+        <section id="features" class="py-8 px-4 sm:px-6 lg:px-8 border-y border-white/10 bg-slate-950/40 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/20 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 shrink-0">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">Quantum Encryption</h4>
+                        <p class="text-xs text-slate-400">100% Secure Checkout</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/20 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0">
+                        <i data-lucide="truck" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">Instant Warp Delivery</h4>
+                        <p class="text-xs text-slate-400">Global Priority Shipping</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/20 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 shrink-0">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">Neural Sync Ready</h4>
+                        <p class="text-xs text-slate-400">Zero Configuration Setup</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/20 transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+                        <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">30-Day Return Grid</h4>
+                        <p class="text-xs text-slate-400">Hassle-Free Replacement</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PRODUCTS SECTION ================= -->
+        <section id="products" class="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto space-y-12">
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs font-semibold tracking-wider uppercase mb-2">
+                            <i data-lucide="layers" class="w-4 h-4"></i>
+                            Cyber Catalog 2026
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                            Featured Hardware Grid
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-xl">
+                            Elite cybernetics, bionic tactile controllers aur neural optics. Apni pasand ka artifact chuniye aur checkout kijiye.
+                        </p>
+                    </div>
+
+                    <!-- Category Pills Filter -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+                        <button onclick="filterProducts('all')" class="category-btn active px-4 py-2 rounded-xl text-xs font-mono font-medium border border-cyan-500 bg-cyan-500/20 text-cyan-300">All</button>
+                        <button onclick="filterProducts('neural')" class="category-btn px-4 py-2 rounded-xl text-xs font-mono font-medium border border-white/10 bg-white/[0.03] text-slate-300 hover:text-white hover:bg-white/10">Neural</button>
+                        <button onclick="filterProducts('wearable')" class="category-btn px-4 py-2 rounded-xl text-xs font-mono font-medium border border-white/10 bg-white/[0.03] text-slate-300 hover:text-white hover:bg-white/10">Wearables</button>
+                        <button onclick="filterProducts('tactile')" class="category-btn px-4 py-2 rounded-xl text-xs font-mono font-medium border border-white/10 bg-white/[0.03] text-slate-300 hover:text-white hover:bg-white/10">Peripherals</button>
+                    </div>
+                </div>
+
+                <!-- Product Grid (4 High-Performance Cards) -->
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                    <!-- Product 1 -->
+                    <div class="product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="neural">
+                        <!-- Product Visual Container with Image -->
+                        <div class="relative h-64 w-full overflow-hidden bg-slate-900/80 flex items-center justify-center p-6">
+                            <!-- Background Neon Grid pattern -->
+                            <div class="absolute inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800&auto=format&fit=crop" 
+                                 alt="AeroPulse Neural Headset" 
+                                 class="relative z-10 w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1">
+
+                            <span class="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-cyan-500/90 text-slate-950 shadow-md">
+                                Best Seller
+                            </span>
+                            <span class="absolute top-3 right-3 z-20 px-2 py-1 rounded-md text-[10px] font-mono bg-black/60 backdrop-blur-md text-cyan-300 border border-white/10">
+                                0.01ms Latency
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+                                    <span>NEURAL-SERIES</span>
+                                    <span class="flex items-center text-amber-400">★ 4.9 (1.2k)</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-white group-hover:text-cyan-400 transition-colors">
+                                    AeroPulse MK-IV Headset
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                                    Direct brain-computer holographic audio linkage aur ultra-low noise cancellation algorithm.
+                                </p>
+                            </div>
+
+                            <!-- Specs Chips -->
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Spatial 3D</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Titanium</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">48h Battery</span>
+                            </div>
+
+                            <!-- Price and Actions -->
+                            <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                                <div>
+                                    <span class="text-[11px] font-mono text-slate-400 block -mb-1">PRICE</span>
+                                    <span class="text-xl font-bold font-mono text-white">$299<span class="text-xs text-cyan-400 font-normal">.00</span></span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="addToCart('AeroPulse MK-IV Headset', 299)" class="p-2.5 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-cyan-500/20 hover:border-cyan-400/50 text-cyan-300 transition-all" title="Add to Cart">
+                                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="openBuyModal('AeroPulse MK-IV Headset', 299, 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800&auto=format&fit=crop')" class="px-3.5 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs font-mono transition-all">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="wearable">
+                        <!-- Product Visual Container -->
+                        <div class="relative h-64 w-full overflow-hidden bg-slate-900/80 flex items-center justify-center p-6">
+                            <div class="absolute inset-0 bg-[radial-gradient(#ec4899_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop" 
+                                 alt="Chronos Quantum Watch" 
+                                 class="relative z-10 w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1">
+
+                            <span class="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-fuchsia-500/90 text-white shadow-md">
+                                Cyber Edition
+                            </span>
+                            <span class="absolute top-3 right-3 z-20 px-2 py-1 rounded-md text-[10px] font-mono bg-black/60 backdrop-blur-md text-pink-300 border border-white/10">
+                                4D Display
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+                                    <span>QUANTUM-WEAR</span>
+                                    <span class="flex items-center text-amber-400">★ 5.0 (840)</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-white group-hover:text-fuchsia-400 transition-colors">
+                                    Chronos Holo-Watch
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                                    Atomic clock precision, holographic wrist display, biometric quantum encryptor aur sapphire glass.
+                                </p>
+                            </div>
+
+                            <!-- Specs Chips -->
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Holo-HUD</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">50m Water</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Bio-Sensor</span>
+                            </div>
+
+                            <!-- Price and Actions -->
+                            <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                                <div>
+                                    <span class="text-[11px] font-mono text-slate-400 block -mb-1">PRICE</span>
+                                    <span class="text-xl font-bold font-mono text-white">$449<span class="text-xs text-fuchsia-400 font-normal">.00</span></span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="addToCart('Chronos Holo-Watch', 449)" class="p-2.5 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-fuchsia-500/20 hover:border-fuchsia-400/50 text-fuchsia-300 transition-all" title="Add to Cart">
+                                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="openBuyModal('Chronos Holo-Watch', 449, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop')" class="px-3.5 py-2 rounded-xl bg-fuchsia-500 hover:bg-fuchsia-400 text-white font-bold text-xs font-mono transition-all">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="tactile">
+                        <!-- Product Visual Container -->
+                        <div class="relative h-64 w-full overflow-hidden bg-slate-900/80 flex items-center justify-center p-6">
+                            <div class="absolute inset-0 bg-[radial-gradient(#a855f7_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=800&auto=format&fit=crop" 
+                                 alt="Vortex Cyber Mech Keyboard" 
+                                 class="relative z-10 w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1">
+
+                            <span class="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-purple-600 text-white shadow-md">
+                                Ultra Spec
+                            </span>
+                            <span class="absolute top-3 right-3 z-20 px-2 py-1 rounded-md text-[10px] font-mono bg-black/60 backdrop-blur-md text-purple-300 border border-white/10">
+                                8000Hz Polling
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+                                    <span>TACTILE-PRO</span>
+                                    <span class="flex items-center text-amber-400">★ 4.8 (950)</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-white group-hover:text-purple-400 transition-colors">
+                                    Vortex Cyber Keyboard
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                                    Magnetic hall effect switches, CNC milled anodized chassis aur customizable OLED companion screen.
+                                </p>
+                            </div>
+
+                            <!-- Specs Chips -->
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Hall Effect</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">RGB Per-Key</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Hot-Swap</span>
+                            </div>
+
+                            <!-- Price and Actions -->
+                            <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                                <div>
+                                    <span class="text-[11px] font-mono text-slate-400 block -mb-1">PRICE</span>
+                                    <span class="text-xl font-bold font-mono text-white">$199<span class="text-xs text-purple-400 font-normal">.00</span></span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="addToCart('Vortex Cyber Keyboard', 199)" class="p-2.5 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-purple-500/20 hover:border-purple-400/50 text-purple-300 transition-all" title="Add to Cart">
+                                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="openBuyModal('Vortex Cyber Keyboard', 199, 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=800&auto=format&fit=crop')" class="px-3.5 py-2 rounded-xl bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs font-mono transition-all">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="tactile">
+                        <!-- Product Visual Container -->
+                        <div class="relative h-64 w-full overflow-hidden bg-slate-900/80 flex items-center justify-center p-6">
+                            <div class="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?q=80&w=800&auto=format&fit=crop" 
+                                 alt="Exo-Grip Wireless Mouse" 
+                                 class="relative z-10 w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1">
+
+                            <span class="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500 text-slate-950 shadow-md">
+                                Lightweight 38g
+                            </span>
+                            <span class="absolute top-3 right-3 z-20 px-2 py-1 rounded-md text-[10px] font-mono bg-black/60 backdrop-blur-md text-emerald-300 border border-white/10">
+                                Carbon Shell
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+                                    <span>PRECISION-OPS</span>
+                                    <span class="flex items-center text-amber-400">★ 4.9 (610)</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-white group-hover:text-emerald-400 transition-colors">
+                                    Exo-Grip Optical Core Mouse
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                                    Honeycomb carbon-fiber composite body, 36,000 DPI optical sensor aur zero-friction glass skates.
+                                </p>
+                            </div>
+
+                            <!-- Specs Chips -->
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">36K DPI</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Wireless 4K</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5">Glass Skates</span>
+                            </div>
+
+                            <!-- Price and Actions -->
+                            <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                                <div>
+                                    <span class="text-[11px] font-mono text-slate-400 block -mb-1">PRICE</span>
+                                    <span class="text-xl font-bold font-mono text-white">$149<span class="text-xs text-emerald-400 font-normal">.00</span></span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="addToCart('Exo-Grip Optical Mouse', 149)" class="p-2.5 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-emerald-500/20 hover:border-emerald-400/50 text-emerald-300 transition-all" title="Add to Cart">
+                                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="openBuyModal('Exo-Grip Optical Mouse', 149, 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?q=80&w=800&auto=format&fit=crop')" class="px-3.5 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs font-mono transition-all">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TECH SPECS / INTERACTIVE HUD SECTION ================= -->
+        <section id="specs" class="py-20 px-4 sm:px-6 lg:px-8 relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="glass-panel rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-white/10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        <div class="space-y-6">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
+                                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                                ARCHITECTURE SPECIFICATIONS
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl font-black text-white">
+                                Built for Zero Latency, Engineered for Cyber Elite.
+                            </h2>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Har ek hardware module Three.js simulated testing ke dauran benchmarked hai. Hamaare futuristic components low power consumption aur ultra-smooth responsiveness provide karte hain.
+                            </p>
+
+                            <div class="space-y-3 font-mono text-xs">
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/5">
+                                    <span class="text-slate-400 flex items-center gap-2">
+                                        <i data-lucide="activity" class="w-4 h-4 text-cyan-400"></i> GPU Acceleration
+                                    </span>
+                                    <span class="text-white font-bold">Enabled via WebGL</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/5">
+                                    <span class="text-slate-400 flex items-center gap-2">
+                                        <i data-lucide="disc" class="w-4 h-4 text-purple-400"></i> Torus Knot Topology
+                                    </span>
+                                    <span class="text-white font-bold">p=2, q=3 Parametric</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/5">
+                                    <span class="text-slate-400 flex items-center gap-2">
+                                        <i data-lucide="zap" class="w-4 h-4 text-pink-400"></i> Refresh Cycle
+                                    </span>
+                                    <span class="text-white font-bold">Dynamic 60-120 FPS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Banner Graphic -->
+                        <div class="relative flex items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-cyan-950/30 via-slate-900/40 to-purple-950/30 border border-white/10">
+                            <div class="text-center space-y-4">
+                                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-cyan-400 to-fuchsia-500 p-1 flex items-center justify-center shadow-xl shadow-cyan-500/20 animate-pulse">
+                                    <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
+                                        <i data-lucide="shield" class="w-10 h-10 text-cyan-300"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold font-mono text-white">2-Year Neural Warranty</h3>
+                                <p class="text-xs text-slate-300 max-w-sm">
+                                    Automated hardware telemetry aur free quantum component replacement policy har purchase par include hoti hai.
+                                </p>
+                                <a href="#products" class="inline-block mt-2 px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs border border-white/20 transition-all">
+                                    Claim Cyber Gear →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= NEWSLETTER SECTION ================= -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto glass-card rounded-2xl p-8 sm:p-12 text-center border border-cyan-500/30 relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Join the Cyber Frequency</h3>
+                <p class="text-slate-400 text-sm mt-2 max-w-md mx-auto">
+                    Naye product drops, exclusive holographic firmware upgrades aur flash sales ke liye subscribe karein.
+                </p>
+
+                <form onsubmit="handleSubscribe(event)" class="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="email" required placeholder="Enter operator terminal email..." class="flex-grow px-4 py-3 rounded-xl bg-black/60 border border-white/15 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-colors">
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold font-mono text-sm transition-all shadow-lg shadow-cyan-500/30">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= FOOTER ================= -->
+        <footer id="contact" class="mt-auto border-t border-white/10 bg-slate-950/80 backdrop-blur-xl py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Col 1: Brand -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="zap" class="w-5 h-5 text-cyan-400"></i>
+                        <span class="font-mono text-lg font-bold text-white tracking-wider">CYBERPULSE</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Pioneering next-generation reactive 3D eCommerce. Combining Three.js WebGL graphics with ultra-fast modern web architecture.
+                    </p>
+                    <div class="flex gap-3 pt-2 text-slate-400">
+                        <a href="#" class="p-2 rounded-lg bg-white/5 hover:text-cyan-400 hover:bg-white/10 transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        <a href="#" class="p-2 rounded-lg bg-white/5 hover:text-cyan-400 hover:bg-white/10 transition-colors"><i data-lucide="github" class="w-4 h-4"></i></a>
+                        <a href="#" class="p-2 rounded-lg bg-white/5 hover:text-cyan-400 hover:bg-white/10 transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div>
+                    <h5 class="font-mono text-xs font-bold text-white uppercase tracking-wider mb-3">Ecosystem</h5>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#hero" class="hover:text-cyan-400 transition-colors">3D Holo Hub</a></li>
+                        <li><a href="#products" class="hover:text-cyan-400 transition-colors">Neural Peripherals</a></li>
+                        <li><a href="#specs" class="hover:text-cyan-400 transition-colors">Hardware Architecture</a></li>
+                        <li><a href="#features" class="hover:text-cyan-400 transition-colors">Encryption Nodes</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Support -->
+                <div>
+                    <h5 class="font-mono text-xs font-bold text-white uppercase tracking-wider mb-3">Support & Docs</h5>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Telemetry Diagnostics</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Global Dispatch Tracking</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Warranty & RMA</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Cyber Privacy Protocol</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Node Status -->
+                <div class="space-y-3 font-mono">
+                    <h5 class="text-xs font-bold text-white uppercase tracking-wider">Network Status</h5>
+                    <div class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1.5 text-[11px]">
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-400">Cluster:</span>
+                            <span class="text-emerald-400">All Nodes Online</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-400">Latency:</span>
+                            <span class="text-cyan-400">12ms (Global Edge)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-400">Three.js:</span>
+                            <span class="text-purple-400">r128 Engine Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono gap-4">
+                <p>© 2026 CYBERPULSE INC. All rights reserved. Designed for Futuristic High-End Web.</p>
+                <div class="flex items-center gap-4">
+                    <span>Dark Theme Glassmorphism</span>
+                    <span>•</span>
+                    <span class="text-cyan-400">WebGL 3D Powered</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ================= FLOATING CART DRAWER ================= -->
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-96 glass-panel border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-2xl">
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-white/10 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-cyan-400"></i>
+                <h3 class="font-mono font-bold text-base text-white">Cyber Cart (<span id="cartCountTitle">0</span>)</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="p-2 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsList" class="flex-grow p-5 overflow-y-auto space-y-3">
+            <div id="emptyCartMessage" class="text-center py-16 text-slate-400 space-y-3">
+                <i data-lucide="package-open" class="w-12 h-12 mx-auto text-slate-600"></i>
+                <p class="text-sm font-mono">Aapka cart khali hai.</p>
+                <a href="#products" onclick="toggleCartDrawer()" class="inline-block text-xs text-cyan-400 hover:underline">Artifacts browse karein →</a>
+            </div>
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="p-5 border-t border-white/10 bg-slate-950/80 space-y-4">
+            <div class="flex items-center justify-between font-mono text-sm">
+                <span class="text-slate-400">Subtotal:</span>
+                <span id="cartSubtotal" class="font-bold text-white text-lg">$0.00</span>
+            </div>
+            <button onclick="triggerCheckout()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold font-mono text-sm shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/40 hover:scale-[1.01] active:scale-[0.99] transition-all">
+                Proceed To Secure Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= BUY NOW / QUICK CHECKOUT MODAL ================= -->
+    <div id="buyModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-2xl overflow-hidden border border-cyan-500/30 transform transition-all shadow-2xl">
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <h3 class="font-mono font-bold text-base text-white">Quantum Checkout</h3>
+                </div>
+                <button onclick="closeBuyModal()" class="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+                <div class="flex items-center gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                    <img id="modalProductImg" src="" alt="Product" class="w-20 h-20 object-cover rounded-lg border border-white/10">
+                    <div>
+                        <h4 id="modalProductName" class="font-bold text-white text-base">Product Title</h4>
+                        <div class="text-xs font-mono text-slate-400 mt-1">Instant Neural Dispatch</div>
+                        <div id="modalProductPrice" class="text-cyan-400 font-mono font-bold text-lg mt-1">$0.00</div>
+                    </div>
+                </div>
+
+                <!-- Payment Selection -->
+                <div class="space-y-2">
+                    <label class="text-xs font-mono text-slate-300">Choose Protocol:</label>
+                    <div class="grid grid-cols-3 gap-2 text-xs font-mono">
+                        <button type="button" class="p-2.5 rounded-lg border border-cyan-500 bg-cyan-500/20 text-cyan-300 text-center font-medium">
+                            NeuralPay
+                        </button>
+                        <button type="button" class="p-2.5 rounded-lg border border-white/10 bg-white/5 text-slate-300 hover:border-white/30 text-center font-medium">
+                            Crypto (USDT)
+                        </button>
+                        <button type="button" class="p-2.5 rounded-lg border border-white/10 bg-white/5 text-slate-300 hover:border-white/30 text-center font-medium">
+                            Credit Card
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Shipping Address Input -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-mono text-slate-300">Delivery Vector / Address:</label>
+                    <input type="text" value="Neo-Tokyo, Sector 7, Orbital Node 42" class="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-white/15 text-sm text-white focus:outline-none focus:border-cyan-400 font-mono">
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-5 border-t border-white/10 bg-slate-950/70 flex gap-3">
+                <button onclick="closeBuyModal()" class="flex-1 py-3 rounded-xl border border-white/15 text-slate-300 hover:bg-white/5 font-mono text-xs transition-colors">
+                    Cancel
+                </button>
+                <button onclick="confirmOrder()" class="flex-1 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold font-mono text-xs shadow-lg shadow-cyan-500/30 transition-all">
+                    Authorize Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FLOATING TOAST NOTIFICATION ================= -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-panel px-5 py-3.5 rounded-xl border border-cyan-500/40 flex items-center gap-3 shadow-2xl">
+            <div class="w-7 h-7 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-300">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            </div>
+            <div id="toastMessage" class="text-xs font-mono text-white">Item added to cart!</div>
+        </div>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT & THREE.JS ENGINE ================= -->
+    <script>
+        // 1. Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 2. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // ================= THREE.JS 3D SCENE SETUP =================
+        let scene, camera, renderer;
+        let torusKnot, particleMesh;
+        let knotMaterial, wireframeMaterial;
+        let isWireframe = false;
+        let rotationSpeed = 0.006;
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+
+        function initThreeJS() {
+            const canvas = document.getElementById('webgl-canvas');
+            
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 7;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true,
+                alpha: true, // Transparent for CSS gradients underneath
+                powerPreference: 'high-performance'
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Lighting setup for glowing 3D cyber aesthetic
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const pointLightCyan = new THREE.PointLight(0x00f0ff, 2.5, 50);
+            pointLightCyan.position.set(5, 5, 5);
+            scene.add(pointLightCyan);
+
+            const pointLightPurple = new THREE.PointLight(0xa855f7, 2.5, 50);
+            pointLightPurple.position.set(-5, -5, 3);
+            scene.add(pointLightPurple);
+
+            // 1) Continuous Rotating Torus Knot Geometry
+            // Parameters: radius, tube, tubularSegments, radialSegments, p, q
+            const geometry = new THREE.TorusKnotGeometry(2.1, 0.58, 140, 32, 2, 3);
+
+            // Material - High Quality Glossy Mesh
+            knotMaterial = new THREE.MeshStandardMaterial({
+                color: 0x00f0ff,
+                roughness: 0.18,
+                metalness: 0.85,
+                wireframe: false,
+                emissive: 0x031828,
+            });
+
+            torusKnot = new THREE.Mesh(geometry, knotMaterial);
+            torusKnot.position.set(1.5, 0, 0); // Position slightly offset to look beautiful with hero text
+            scene.add(torusKnot);
+
+            // 2) Lightweight Floating Particle Field (1,200 Particles)
+            const particlesCount = 1200;
+            const particleGeo = new THREE.BufferGeometry();
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for (let i = 0; i < particlesCount * 3; i += 3) {
+                posArray[i] = (Math.random() - 0.5) * 25;     // X spread
+                posArray[i + 1] = (Math.random() - 0.5) * 25; // Y spread
+                posArray[i + 2] = (Math.random() - 0.5) * 20; // Z spread
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const particleMat = new THREE.PointsMaterial({
+                size: 0.04,
+                color: 0x00f0ff,
+                transparent: true,
+                opacity: 0.65,
+                blending: THREE.AdditiveBlending
+            });
+
+            particleMesh = new THREE.Points(particleGeo, particleMat);
+            scene.add(particleMesh);
+
+            // Mouse Move Parallax Listener
+            window.addEventListener('mousemove', onMouseMove);
+            // Window Resize Listener
+            window.addEventListener('resize', onWindowResize);
+
+            // Start Animation Loop
+            animate();
+        }
+
+        function onMouseMove(event) {
+            // Normalized coordinates (-1 to 1)
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Responsive offset for mobile vs desktop
+            if (window.innerWidth < 1024) {
+                torusKnot.position.set(0, 0, -1);
+                torusKnot.scale.set(0.8, 0.8, 0.8);
+            } else {
+                torusKnot.position.set(1.8, 0, 0);
+                torusKnot.scale.set(1, 1, 1);
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth gentle rotation
+            torusKnot.rotation.x += rotationSpeed;
+            torusKnot.rotation.y += rotationSpeed * 1.35;
+
+            // Slowly rotate the particle starfield
+            particleMesh.rotation.y += 0.0008;
+            particleMesh.rotation.x -= 0.0004;
+
+            // Smooth mouse follow (Parallax effect)
+            targetX += (mouseX * 0.4 - targetX) * 0.05;
+            targetY += (mouseY * 0.4 - targetY) * 0.05;
+            torusKnot.rotation.z = targetX;
+            torusKnot.position.y = targetY * 0.5;
+
+            // Slowly return rotation speed back to normal if boosted
+            if (rotationSpeed > 0.006) {
+                rotationSpeed -= 0.0003;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize 3D on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+            onWindowResize(); // Adjust initial position based on screen width
+        });
+
+        // 3D Controls Functions
+        function toggleWireframe() {
+            isWireframe = !isWireframe;
+            knotMaterial.wireframe = isWireframe;
+            const textElem = document.getElementById('wireframeText');
+            if (textElem) {
+                textElem.innerText = isWireframe ? 'Solid Mesh' : 'Wireframe';
+            }
+            showToast(isWireframe ? '3D Mode: Wireframe Hologram' : '3D Mode: Solid Cyber Mesh');
+        }
+
+        document.getElementById('toggleWireframeBtn').addEventListener('click', toggleWireframe);
+        const mobileWfBtn = document.getElementById('mobileWireframeBtn');
+        if (mobileWfBtn) mobileWfBtn.addEventListener('click', toggleWireframe);
+
+        function speedUp3D() {
+            rotationSpeed = 0.05; // Quick burst
+            showToast('3D Core Hyper-Drive Activated!');
+        }
+
+        function set3DColor(hexColor) {
+            knotMaterial.color.setHex(hexColor);
+            particleMesh.material.color.setHex(hexColor);
+            showToast('3D Spectrum Reconfigured');
+        }
+
+
+        // ================= E-COMMERCE CART & CHECKOUT LOGIC =================
+        let cart = [];
+
+        function addToCart(title, price) {
+            const existing = cart.find(item => item.title === title);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ title, price, quantity: 1 });
+            }
+            updateCartUI();
+            showToast(`Added: ${title}`);
+        }
+
+        function removeFromCart(title) {
+            cart = cart.filter(item => item.title !== title);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartCountBadge');
+            const titleCount = document.getElementById('cartCountTitle');
+            const itemsList = document.getElementById('cartItemsList');
+            const emptyMsg = document.getElementById('emptyCartMessage');
+            const subtotalElem = document.getElementById('cartSubtotal');
+
+            const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+            badge.innerText = totalItems;
+            titleCount.innerText = totalItems;
+
+            if (cart.length === 0) {
+                emptyMsg.classList.remove('hidden');
+                itemsList.innerHTML = '';
+                itemsList.appendChild(emptyMsg);
+                subtotalElem.innerText = '$0.00';
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+            let total = 0;
+            let html = '';
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                html += `
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                        <div>
+                            <div class="font-bold text-sm text-white">${item.title}</div>
+                            <div class="text-xs font-mono text-cyan-400 mt-0.5">$${item.price}.00 × ${item.quantity}</div>
+                        </div>
+                        <button onclick="removeFromCart('${item.title}')" class="p-1.5 rounded-lg text-rose-400 hover:bg-rose-500/10 transition-colors" title="Remove">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            itemsList.innerHTML = html;
+            subtotalElem.innerText = `$${total.toFixed(2)}`;
+            lucide.createIcons();
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+
+        function triggerCheckout() {
+            if (cart.length === 0) {
+                showToast('Cart khali hai! Pehle kuch add karein.');
+                return;
+            }
+            toggleCartDrawer();
+            openBuyModal('Cyber Order Collection', cart.reduce((acc, i) => acc + (i.price * i.quantity), 0), 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800&auto=format&fit=crop');
+        }
+
+        // Buy Now Modal
+        function openBuyModal(name, price, imgUrl) {
+            document.getElementById('modalProductName').innerText = name;
+            document.getElementById('modalProductPrice').innerText = `$${price}.00`;
+            document.getElementById('modalProductImg').src = imgUrl;
+            document.getElementById('buyModal').classList.remove('hidden');
+        }
+
+        function closeBuyModal() {
+            document.getElementById('buyModal').classList.add('hidden');
+        }
+
+        function confirmOrder() {
+            closeBuyModal();
+            cart = [];
+            updateCartUI();
+            showToast('Order Authorized! Quantum dispatch initiated.');
+        }
+
+        // Product Filter Tabs
+        function filterProducts(category) {
+            // Update active pill styling
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.className = 'category-btn px-4 py-2 rounded-xl text-xs font-mono font-medium border border-white/10 bg-white/[0.03] text-slate-300 hover:text-white hover:bg-white/10';
+            });
+            event.target.className = 'category-btn active px-4 py-2 rounded-xl text-xs font-mono font-medium border border-cyan-500 bg-cyan-500/20 text-cyan-300';
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Newsletter form
+        function handleSubscribe(e) {
+            e.preventDefault();
+            e.target.reset();
+            showToast('Subscribed to Cyber Frequency!');
+        }
+
+        // Floating Toast Trigger
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.innerText = message;
+
+            clearTimeout(toastTimeout);
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
